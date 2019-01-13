@@ -99,10 +99,6 @@ class IndexAction extends Action
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
-            'pagination' => [
-                'params' => Yii::$app->getRequest()->getQueryParam('page', []),
-                'pageSizeParam' => 'size'
-            ],
             'sort' => [
                 'enableMultiSort' => true
             ]
@@ -115,23 +111,23 @@ class IndexAction extends Action
             return null;
         }
         $requestParams = Yii::$app->getRequest()->getQueryParam('filter', []);
-        $attributeMap = [];
+        $request_filter = [];
         foreach ($requestParams as $attribute => $value) {
             $attribute = Inflector::camel2id(Inflector::variablize($attribute), '_');
             if (is_array($value)) {
                 foreach ($value as $searchParam => $resValue) {
-                    $request[$attribute][$searchParam] = $resValue;
+                    $request_filter[$attribute][$searchParam] = $resValue;
                 }
             } elseif(strpos($value, ',') !== false) {
-                $request[$attribute] = ['in' => explode(',', $value)];
+                $request_filter[$attribute] = ['in' => explode(',', $value)];
             } else {
-                $request[$attribute] = $value;
+                $request_filter[$attribute] = $value;
             }
         }
 
         /** @var DataFilter $dataFilter */
         $dataFilter = Yii::createObject($this->dataFilter);
-        if ($dataFilter->load(['filter' => $request])) {
+        if ($dataFilter->load(['filter' => $request_filter])) {
             return $dataFilter->build();
         }
         return null;
