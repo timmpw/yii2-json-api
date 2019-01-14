@@ -99,6 +99,9 @@ class IndexAction extends Action
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
+            'pagination' => [
+                'pageSizeLimit' => [0, 50],
+            ],
             'sort' => [
                 'enableMultiSort' => true
             ]
