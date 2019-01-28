@@ -131,7 +131,9 @@ class IndexAction extends Action
         /** @var DataFilter $dataFilter */
         $dataFilter = Yii::createObject($this->dataFilter);
         if ($dataFilter->load(['filter' => $request_filter])) {
+
             return $dataFilter->build(false);
+
         }
         return null;
     }
