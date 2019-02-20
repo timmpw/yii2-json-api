@@ -36,7 +36,7 @@ Update your database schema by applying the migrations. Make sure that you have 
 
 Run the following command:
 ```sh
-$ php yii migrate/up --migrationPath=@vendor/dektrium/yii2-user/migrations
+$ php yii migrate/up --migrationPath=vendor/tuyakhov/yii2-json-api/migrations
 ```
 
 **Recomended method:**
