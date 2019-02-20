@@ -1,29 +1,27 @@
-<p align="center"><img width="30%" src ="https://jsonapi.org/images/jsonapi.png" /></p>
-
-Implementation of JSON API specification for the Yii framework
+JSON API on steroids for the Yii framework
 ==================================================================
-[![Latest Stable Version](https://poser.pugx.org/tuyakhov/yii2-json-api/v/stable.png)](https://packagist.org/packages/tuyakhov/yii2-json-api)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tuyakhov/yii2-json-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/tuyakhov/yii2-json-api/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/tuyakhov/yii2-json-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/tuyakhov/yii2-json-api/build-status/master)
-[![Total Downloads](https://poser.pugx.org/tuyakhov/yii2-json-api/downloads.png)](https://packagist.org/packages/tuyakhov/yii2-json-api)
 
 Installation
 ------------
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
-
-Either run
-
-```
-php composer.phar require --prefer-dist tuyakhov/yii2-json-api "*"
-```
-
-or add
+The preferred way to install this extension is through [composer](http://getcomposer.org/download/). Just add
 
 ```
 "tuyakhov/yii2-json-api": "*"
 ```
 
 to the require section of your `composer.json` file.
+
+If you whant to use this fork - don't forget add this strings into `repositories` at `composer.json`
+
+```
+{
+    "type": "vcs",
+    "url": "http://github.com/timmpw/yii2-json-api"
+}
+```
+
+Checkout example of composer.json [here](https://bunin.in/drive/composer.json)
 
 Data Serializing and Content Negotiation:
 -------------------------------------------
