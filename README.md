@@ -36,7 +36,7 @@ Update your database schema by applying the migrations. Make sure that you have 
 
 Run the following command:
 ```sh
-$ php yii migrate/up --migrationPath=vendor/tuyakhov/yii2-json-api/migrations
+$ php yii migrate/up --migrationPath=vendor/tuyakhov/yii2-json-api/src/migrations
 ```
 
 **Recomended method:**
@@ -48,7 +48,7 @@ Add this into console configuration file
     'migrate' => [
         'class' => 'yii\console\controllers\MigrateController',
         'migrationPath' => [
-            'vendor/tuyakhov/yii2-json-api/migrations'
+            'vendor/tuyakhov/yii2-json-api/src/migrations'
         ],
         'migrationTable' => 'migration',
     ],
