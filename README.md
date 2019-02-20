@@ -23,6 +23,45 @@ If you whant to use this fork - don't forget add this strings into `repositories
 
 Checkout example of composer.json [here](https://bunin.in/drive/composer.json)
 
+
+Getting started with Yii2-json-api
+-------------------------------------------
+
+####[1 step] Migrations:
+
+Update your database schema by applying the migrations. Make sure that you have properly configured db application component.
+
+
+**Fast method**
+
+Run the following command:
+```sh
+$ php yii migrate/up --migrationPath=@vendor/dektrium/yii2-user/migrations
+```
+
+**Best method**
+
+Add this into console configuration file
+
+```php
+'controllerMap' => [
+    'migrate' => [
+        'class' => 'yii\console\controllers\MigrateController',
+        'migrationPath' => [
+            'vendor/tuyakhov/yii2-json-api/migrations'
+        ],
+        'migrationTable' => 'migration',
+    ],
+],
+```
+
+And update your database schema with own migrations by command like
+
+```sh
+$ php yii migrate/up
+```
+
+
 Data Serializing and Content Negotiation:
 -------------------------------------------
 Controller:
