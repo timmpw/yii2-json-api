@@ -1,4 +1,6 @@
-JSON API on steroids for the Yii framework
+JSON API with reports for the Yii2 framework
+==================================================================
+It's like starter-kit
 ==================================================================
 
 Installation
