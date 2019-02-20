@@ -27,19 +27,19 @@ Checkout example of composer.json [here](https://bunin.in/drive/composer.json)
 Getting started with Yii2-json-api
 -------------------------------------------
 
-####[1 step] Migrations:
+### [1 step] Migrations:
 
 Update your database schema by applying the migrations. Make sure that you have properly configured db application component.
 
 
-**Fast method**
+**Fast method:**
 
 Run the following command:
 ```sh
 $ php yii migrate/up --migrationPath=@vendor/dektrium/yii2-user/migrations
 ```
 
-**Best method**
+**Recomended method:**
 
 Add this into console configuration file
 
