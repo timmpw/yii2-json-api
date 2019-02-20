@@ -31,17 +31,27 @@ Getting started with Yii2-json-api
 
 Update your database schema by applying the migrations. Make sure that you have properly configured db application component.
 
-
-**Fast method:**
-
+<table>
+<tr>
+<th>
+Fast method:
+</th>
+<th>
+Recomended method:
+</th>
+</tr>
+<tr>
+<td>
 Run the following command:
+    
 ```sh
-$ php yii migrate/up --migrationPath=vendor/tuyakhov/yii2-json-api/src/migrations
+$ php yii migrate/up \
+--migrationPath=vendor/tuyakhov/yii2-json-api/src/migrations
 ```
 
-**Recomended method:**
-
-Add this into console configuration file
+</td>
+<td>
+    Add this into console configuration file
 
 ```php
 'controllerMap' => [
@@ -61,6 +71,8 @@ And update your database schema with own migrations by command like
 $ php yii migrate/up
 ```
 
+</td>
+</table>
 
 Data Serializing and Content Negotiation:
 -------------------------------------------
