@@ -1,29 +1,78 @@
-<p align="center"><img width="30%" src ="https://jsonapi.org/images/jsonapi.png" /></p>
-
-Implementation of JSON API specification for the Yii framework
+JSON API with reports for the Yii2 framework
 ==================================================================
-[![Latest Stable Version](https://poser.pugx.org/tuyakhov/yii2-json-api/v/stable.png)](https://packagist.org/packages/tuyakhov/yii2-json-api)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tuyakhov/yii2-json-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/tuyakhov/yii2-json-api/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/tuyakhov/yii2-json-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/tuyakhov/yii2-json-api/build-status/master)
-[![Total Downloads](https://poser.pugx.org/tuyakhov/yii2-json-api/downloads.png)](https://packagist.org/packages/tuyakhov/yii2-json-api)
 
 Installation
 ------------
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
-
-Either run
-
-```
-php composer.phar require --prefer-dist tuyakhov/yii2-json-api "*"
-```
-
-or add
+The preferred way to install this extension is through [composer](http://getcomposer.org/download/). Just add
 
 ```
 "tuyakhov/yii2-json-api": "*"
 ```
 
 to the require section of your `composer.json` file.
+
+If you whant to use this fork - don't forget add this into `repositories` at `composer.json`
+
+```
+{
+    "type": "vcs",
+    "url": "http://github.com/timmpw/yii2-json-api"
+}
+```
+
+Checkout example of composer.json [here](https://bunin.in/drive/composer.json)
+
+
+Getting started with Yii2-json-api
+-------------------------------------------
+
+### [1 step] Migrations:
+
+Update your database schema by applying the migrations. Make sure that you have properly configured db application component.
+
+<table>
+<tr>
+<th>
+Fast method:
+</th>
+<th>
+Recomended method:
+</th>
+</tr>
+<tr>
+<td>
+Run the following command:
+    
+```sh
+$ php yii migrate/up \
+--migrationPath=vendor/tuyakhov/yii2-json-api/src/migrations
+```
+
+</td>
+<td>
+    Add this into console configuration file
+
+```php
+'controllerMap' => [
+    'migrate' => [
+        'class' => 'yii\console\controllers\MigrateController',
+        'migrationPath' => [
+            'vendor/tuyakhov/yii2-json-api/src/migrations'
+        ],
+        'migrationTable' => 'migration',
+    ],
+],
+```
+
+And update your database schema with own migrations by command like
+
+```sh
+$ php yii migrate/up
+```
+
+</td>
+</table>
 
 Data Serializing and Content Negotiation:
 -------------------------------------------

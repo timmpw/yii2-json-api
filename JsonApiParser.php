@@ -40,7 +40,7 @@ class JsonApiParser extends JsonParser
             }
             return [];
         }
-        $data =  ArrayHelper::getValue($array, 'data', []);
+        $data = ArrayHelper::getValue($array, 'data', []);
         if (empty($data)) {
             return [];
         }

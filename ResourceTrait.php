@@ -17,7 +17,7 @@ trait ResourceTrait
      */
     public function getId()
     {
-        return (string) ($this instanceof ActiveRecordInterface ? $this->getPrimaryKey() : null);
+        return (string)($this instanceof ActiveRecordInterface ? $this->getPrimaryKey() : null);
     }
 
     /**

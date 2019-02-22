@@ -7,6 +7,8 @@ namespace tuyakhov\jsonapi\actions;
 
 
 use tuyakhov\jsonapi\Inflector;
+use tuyakhov\jsonapi\models\QueueReport;
+use yii\base\ErrorException;
 use yii\data\ActiveDataProvider;
 use yii\data\DataFilter;
 use Yii;
@@ -60,6 +62,10 @@ class IndexAction extends Action
      * @since 2.0.13
      */
     public $dataFilter;
+    /**
+     * @var Default report name
+     */
+    public $default_report_name = 'Отчёт без названия';
 
 
     /**
@@ -91,6 +97,10 @@ class IndexAction extends Action
         /* @var $modelClass \yii\db\BaseActiveRecord */
         $modelClass = $this->modelClass;
 
+        if (Yii::$app->getRequest()->getQueryParam('download')) {
+            return QueueReport::newReport($modelClass, $filter);
+        }
+
         $query = $modelClass::find();
         if (!empty($filter)) {
             $query->andWhere($filter);
@@ -108,6 +118,11 @@ class IndexAction extends Action
         ]);
     }
 
+    /**
+     * Prepare filter as DataFilter array
+     * @return false|mixed|null
+     * @throws \yii\base\InvalidConfigException
+     */
     protected function getFilter()
     {
         if ($this->dataFilter === null) {
@@ -121,7 +136,7 @@ class IndexAction extends Action
                 foreach ($value as $searchParam => $resValue) {
                     $request_filter[$attribute][$searchParam] = $resValue;
                 }
-            } elseif(strpos($value, ',') !== false) {
+            } elseif (strpos($value, ',') !== false) {
                 $request_filter[$attribute] = ['in' => explode(',', $value)];
             } else {
                 $request_filter[$attribute] = $value;
@@ -137,4 +152,5 @@ class IndexAction extends Action
         }
         return null;
     }
+    
 }

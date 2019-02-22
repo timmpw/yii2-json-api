@@ -79,7 +79,7 @@ class JsonApiResponseFormatter extends Component implements ResponseFormatterInt
                 $formattedError = array_intersect_key($error, array_flip(static::ERROR_ALLOWED_MEMBERS));
                 foreach (static::ERROR_EXCEPTION_MAPPING as $member => $key) {
                     if (isset($error[$key])) {
-                        $formattedError[$member] = (string) $error[$key];
+                        $formattedError[$member] = (string)$error[$key];
                     }
                 }
                 if (!empty($formattedError)) {
