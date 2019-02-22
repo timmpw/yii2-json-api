@@ -8,7 +8,9 @@
     "api",
     "json",
     "rest",
-    "json-api"
+    "json-api",
+    "download-rest",
+    "queue-rest"
   ],
   "homepage": "https://github.com/tuyakhov/yii2-json-api",
   "license": "MIT",
@@ -28,8 +30,7 @@
   },
   "autoload": {
     "psr-4": {
-      "tuyakhov\\jsonapi\\": "src/",
-      "tuyakhov\\jsonapi\\tests\\": "tests/"
+      "tuyakhov\\jsonapi\\": "",
     }
   },
 }

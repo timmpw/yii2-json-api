@@ -12,7 +12,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 to the require section of your `composer.json` file.
 
-If you whant to use this fork - don't forget add this strings into `repositories` at `composer.json`
+If you whant to use this fork - don't forget add this into `repositories` at `composer.json`
 
 ```
 {
