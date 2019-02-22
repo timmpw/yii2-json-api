@@ -21,6 +21,14 @@ use Yii;
  */
 class QueueReport extends \yii\db\ActiveRecord
 {
+
+    const STATUS_CREATED = 'CREATED';
+    const STATUS_STARTED = 'STARTED';
+    const STATUS_ENDED = 'ENDED';
+    const STATUS_FAILED = 'FAILED';
+
+    public static $default_report_name = 'Выгрузка без названия';
+
     /**
      * {@inheritdoc}
      */
@@ -62,5 +70,34 @@ class QueueReport extends \yii\db\ActiveRecord
             'completed_at' => 'Completed At',
             'viewed' => 'Viewed',
         ];
+    }
+
+    /**
+     * Set new report with incoming params
+     * @param $modelClass
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function newReport($modelClass, $filter = null)
+    {
+        $model = new $modelClass;
+
+        $report = new QueueReport();
+        $report->user_id = (!Yii::$app->user->isGuest) ? null : Yii::$app->user->id;
+        $report->report_name = (property_exists($model, 'report_name')) ? $model->report_name : self::$default_report_name;
+        $report->status = QueueReport::STATUS_CREATED;
+        $report->model = $modelClass;
+        $report->filter = ($filter) ? json_encode($filter) : null;
+        $report->created_at = time();
+
+        if ($report->save()) {
+            return [
+                'status' => $report->status,
+                'report_id' => $report->id,
+                'created_at' => $report->created_at,
+            ];
+        } else {
+            return ['errors' => $report->errors];
+        }
     }
 }
