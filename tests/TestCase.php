@@ -2,6 +2,7 @@
 /**
  * @author Anton Tuyakhov <atuyakhov@gmail.com>
  */
+
 namespace tuyakhov\jsonapi\tests;
 
 use \yii\helpers\ArrayHelper;
@@ -19,6 +20,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     {
         $this->destroyApplication();
     }
+
     /**
      * Populates Yii::$app with a new application
      * The application will be destroyed on tearDown() automatically.
@@ -36,7 +38,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
                         'application/vnd.api+json' => '\tuyakhov\jsonapi\JsonApiParser'
                     ],
                     'cookieValidationKey' => 'wefJDF8sfdsfSDefwqdxj9oq',
-                    'scriptFile' => __DIR__ .'/index.php',
+                    'scriptFile' => __DIR__ . '/index.php',
                     'scriptUrl' => '/index.php',
                 ],
                 'response' => [
@@ -49,6 +51,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
             'vendorPath' => $this->getVendorPath(),
         ], $config));
     }
+
     /**
      * @return string vendor path
      */
@@ -56,6 +59,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     {
         return dirname(dirname(__DIR__)) . '/vendor';
     }
+
     /**
      * Destroys application in Yii::$app by setting it to null.
      */

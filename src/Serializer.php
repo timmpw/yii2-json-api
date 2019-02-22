@@ -112,7 +112,7 @@ class Serializer extends Component
         $type = $this->pluralize ? Inflector::pluralize($model->getType()) : $model->getType();
         $fields = isset($fields[$type]) ? $fields[$type] : [];
 
-        $topLevel = array_map(function($item) {
+        $topLevel = array_map(function ($item) {
             if (($pos = strrpos($item, '.')) !== false) {
                 return substr($item, 0, $pos);
             }
@@ -201,7 +201,7 @@ class Serializer extends Component
             if ($key === 'type' && $this->pluralize) {
                 $value = Inflector::pluralize($value);
             }
-            $result[$key] = (string) $value;
+            $result[$key] = (string)$value;
         }
         return $result;
     }
@@ -229,7 +229,7 @@ class Serializer extends Component
         }
 
         foreach ($resources as $resource) {
-            if (!$resource instanceof  ResourceInterface) {
+            if (!$resource instanceof ResourceInterface) {
                 continue;
             }
             $relationships = $resource->getResourceRelationships(array_keys($inclusion));

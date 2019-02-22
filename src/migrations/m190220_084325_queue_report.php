@@ -16,7 +16,7 @@ class m190220_084325_queue_report extends Migration
     {
         $this->createTable($this->table, [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer(),
             'report_name' => $this->text()->notNull(),
             'status' => $this->string()->notNull(),
             'model' => $this->text()->notNull(),

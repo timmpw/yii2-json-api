@@ -2,6 +2,7 @@
 /**
  * @author Anton Tuyakhov <atuyakhov@gmail.com>
  */
+
 namespace tuyakhov\jsonapi\tests;
 
 use tuyakhov\jsonapi\tests\data\ResourceModel;
@@ -27,7 +28,7 @@ class SerializerTest extends TestCase
         $this->expectException(InvalidValueException::class);
         $serializer->serialize($model);
     }
-    
+
     public function testSerializeModelErrors()
     {
         $serializer = new Serializer();
@@ -309,7 +310,7 @@ class SerializerTest extends TestCase
         $bob = new ResourceModel();
         $bob->username = 'Bob';
         $bob->extraField1 = new ResourceModel();
-        $expectedBob = ['id' => '123', 'type' => 'resource-models', 
+        $expectedBob = ['id' => '123', 'type' => 'resource-models',
             'attributes' => ['username' => 'Bob'],
             'links' => ['self' => ['href' => 'http://example.com/resource/123']],
             'relationships' => ['extra-field1' => [
@@ -433,6 +434,7 @@ class SerializerTest extends TestCase
             ],
         ];
     }
+
     /**
      * @dataProvider dataProviderSerializeDataProvider
      *

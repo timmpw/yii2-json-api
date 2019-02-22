@@ -25,7 +25,7 @@ class DeleteRelationshipActionTest extends TestCase
             'extraField1' => new ActiveQuery(ResourceModel::className(), ['multiple' => true]),
             'extraField2' => new ActiveQuery(ResourceModel::className())
         ];
-        $action->findModel = function ($id, $action) use($model) {
+        $action->findModel = function ($id, $action) use ($model) {
             return $model;
         };
         $model->extraField1 = [new ResourceModel()];

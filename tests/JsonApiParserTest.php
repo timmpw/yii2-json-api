@@ -31,28 +31,28 @@ class JsonApiParserTest extends TestCase
     {
         $parser = new JsonApiParser();
         $body = Json::encode([
-           'data' => [
-               'type' => 'resource-models',
-               'attributes' => [
-                   'field1' => 'test',
-                   'field2' => 2,
-                   'first-name' => 'Bob'
-               ],
-               'relationships' => [
-                   'author' => [
-                       'data' => [
-                           'id' => '321',
-                           'type' => 'resource-models'
-                       ]
-                   ],
-                   'client' => [
-                       'data' => [
-                           ['id' => '321', 'type' => 'resource-models'],
-                           ['id' => '123', 'type' => 'resource-models']
-                       ]
-                   ]
-               ]
-           ]
+            'data' => [
+                'type' => 'resource-models',
+                'attributes' => [
+                    'field1' => 'test',
+                    'field2' => 2,
+                    'first-name' => 'Bob'
+                ],
+                'relationships' => [
+                    'author' => [
+                        'data' => [
+                            'id' => '321',
+                            'type' => 'resource-models'
+                        ]
+                    ],
+                    'client' => [
+                        'data' => [
+                            ['id' => '321', 'type' => 'resource-models'],
+                            ['id' => '123', 'type' => 'resource-models']
+                        ]
+                    ]
+                ]
+            ]
         ]);
         $this->assertEquals([
             'ResourceModel' => [

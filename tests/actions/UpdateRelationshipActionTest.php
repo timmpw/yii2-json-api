@@ -25,7 +25,7 @@ class UpdateRelationshipActionTest extends TestCase
             'extraField1' => new ActiveQuery(ResourceModel::className(), ['multiple' => true]),
             'extraField2' => new ActiveQuery(ResourceModel::className())
         ];
-        $action->findModel = function ($id, $action) use($model) {
+        $action->findModel = function ($id, $action) use ($model) {
             return $model;
         };
         ActiveQuery::$models = [new ResourceModel(), new ResourceModel()];

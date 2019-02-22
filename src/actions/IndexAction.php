@@ -121,7 +121,7 @@ class IndexAction extends Action
                 foreach ($value as $searchParam => $resValue) {
                     $request_filter[$attribute][$searchParam] = $resValue;
                 }
-            } elseif(strpos($value, ',') !== false) {
+            } elseif (strpos($value, ',') !== false) {
                 $request_filter[$attribute] = ['in' => explode(',', $value)];
             } else {
                 $request_filter[$attribute] = $value;
