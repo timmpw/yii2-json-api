@@ -13,7 +13,7 @@ use yii\helpers\Json;
 /**
  * Class GenerateController
  * @package backend\modules\report\commands
- * @property $model backend\modules\report\models\ReportQueue
+ * @property $model backend\modules\report\models\QueueReport
  */
 class GenerateController extends Controller
 {
@@ -27,7 +27,7 @@ class GenerateController extends Controller
      */
     public function actionIndex()
     {
-        $notEnded = QueueReport::find()->where(['status' => ReportQueue::STATUS_STARTED])->count();
+        $notEnded = QueueReport::find()->where(['status' => QueueReport::STATUS_STARTED])->count();
 
         if ($notEnded > 0) {
 
@@ -36,7 +36,7 @@ class GenerateController extends Controller
         }
 
 
-        $model = QueueReport::find()->where(['status' => ReportQueue::STATUS_CREATED])->orderBy(['id' => SORT_ASC])->one();
+        $model = QueueReport::find()->where(['status' => QueueReport::STATUS_CREATED])->orderBy(['id' => SORT_ASC])->one();
 
         if ($model) {
 

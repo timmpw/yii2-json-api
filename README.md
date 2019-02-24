@@ -35,7 +35,7 @@ Run the following command:
     
 ```sh
 $ php yii migrate/up \
---migrationPath=vendor/tuyakhov/yii2-json-api/src/migrations
+--migrationPath=vendor/tuyakhov/yii2-json-api/migrations
 ```
 
 
@@ -49,7 +49,7 @@ Add this into console configuration file
         'class' => 'yii\console\controllers\MigrateController',
         'migrationPath' => [
             //path to your migrations
-            'vendor/tuyakhov/yii2-json-api/src/migrations'
+            'vendor/tuyakhov/yii2-json-api/migrations'
         ],
         'migrationTable' => 'migration',
     ],
@@ -60,6 +60,35 @@ And update your database schema with own migrations by command like
 
 ```sh
 $ php yii migrate/up
+```
+
+### [2 step] Configuration:
+
+Add this into your console configuration file:
+
+```php
+'modules' => [
+    //your another modules
+    'jsonapi' => [
+        'class' => '\tuyakhov\jsonapi\Module',
+        'params' => [
+            'file_path' => '/storage/userfiles/',
+            'public_file_path' => '/storage/userfiles/'
+        ]
+    ],
+],
+```
+
+Don't forget bootstrap module!
+
+Add:
+
+```php
+
+'bootstrap' => [
+    // your another modules
+    'jsonapi'
+],
 ```
 
 
