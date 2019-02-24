@@ -134,19 +134,26 @@ class GenerateController extends Controller
 
         foreach ($dataProvider->getModels() as $model) {
 
-            foreach ($modelClass->exportFields() as $one) {
+            $fields = $modelClass->fields();
+
+            if (method_exists($modelClass, 'exporeFields')) {
+                $fields = $modelClass->exportFields();
+            }
+
+            foreach ($fields as $one) {
+                //var_dump($one);
 
                 if (is_string($one)) {
                     $objPHPExcel->getActiveSheet()->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $model[$one]));
                     $objPHPExcel->getActiveSheet()->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(
                         \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 
-                } else {
+                }/* else {
                     $objPHPExcel->getActiveSheet()->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $one($model)));
                     $objPHPExcel->getActiveSheet()->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(
                         \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 
-                }
+                }*/
 
                 $letter++;
             }
@@ -157,16 +164,17 @@ class GenerateController extends Controller
 
         $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 
-        try {
+        $objWriter->save($filename);
 
-            $objWriter->save($filename);
+        /*try {
+
             return true;
 
         } catch (\Exception $e) {
-
+            var_dump($objWriter->)
             return false;
 
-        }
+        }*/
 
     }
 
