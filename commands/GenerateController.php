@@ -7,6 +7,7 @@ use tuyakhov\jsonapi\models\QueueReport;
 use Yii;
 use yii\BaseYii;
 use yii\console\Controller;
+use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\helpers\Json;
 
@@ -40,8 +41,8 @@ class GenerateController extends Controller
 
         if ($model) {
 
-            $model->status = QueueReport::STATUS_STARTED;
-            $model->save();
+            //$model->status = QueueReport::STATUS_STARTED;
+            //$model->save();
 
             $file = $this->getFilename();
 
@@ -87,13 +88,23 @@ class GenerateController extends Controller
      */
     private function setFile($reportItem, $filename)
     {
-        $searchModel = new $reportItem->search;
-        $dataProvider = $searchModel->search(unserialize($reportItem->params));
-        $dataProvider->pagination = false;
+
+        $modelClass = new $reportItem->model;
+        $query = $modelClass::find();
+
+        if (!empty($reportItem->filter)) {
+            $query->andWhere(unserialize($reportItem->filter));
+        }
+
+        $dataProvider = Yii::createObject([
+            'class' => ActiveDataProvider::className(),
+            'query' => $query,
+            'pagination' => false,
+        ]);
 
         $title = 'report';
-        $tableName = $searchModel->tableName();
-        $fields = $this->getFieldsKeys($searchModel->exportFields());
+        $tableName = $modelClass->tableName();
+        $fields = $this->getFieldsKeys($modelClass->fields());
 
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->setActiveSheetIndex(0);
@@ -111,7 +122,7 @@ class GenerateController extends Controller
 
         foreach ($fields as $one) {
 
-            $objPHPExcel->getActiveSheet()->setCellValue(chr($letter) . '1', $searchModel->getAttributeLabel($one));
+            $objPHPExcel->getActiveSheet()->setCellValue(chr($letter) . '1', $modelClass->getAttributeLabel($one));
             $objPHPExcel->getActiveSheet()->getStyle(chr($letter) . '1')->getAlignment()->setHorizontal(
                 \PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $letter++;
@@ -123,7 +134,7 @@ class GenerateController extends Controller
 
         foreach ($dataProvider->getModels() as $model) {
 
-            foreach ($searchModel->exportFields() as $one) {
+            foreach ($modelClass->exportFields() as $one) {
 
                 if (is_string($one)) {
                     $objPHPExcel->getActiveSheet()->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $model[$one]));
