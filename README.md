@@ -41,7 +41,7 @@ $ php yii migrate/up \
 
 OR
 
-    Add this into console configuration file
+Add this into console configuration file
 
 ```php
 'controllerMap' => [
