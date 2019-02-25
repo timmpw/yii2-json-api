@@ -105,7 +105,12 @@ class GenerateController extends Controller
 
         $title = 'report';
         $tableName = $modelClass->tableName();
+
         $fields = $this->getFieldsKeys($modelClass->fields());
+
+        if (method_exists($modelClass, 'exportFields')) {
+            $fields = $this->getFieldsKeys($modelClass->exportFields());
+        }
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -151,7 +156,12 @@ class GenerateController extends Controller
                     $sheet->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $model[$one]),DataType::TYPE_STRING);
                     $sheet->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 } else {
-                    $sheet->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', implode(",", $one($model))),DataType::TYPE_STRING);
+                    if (is_array($one($model))) {
+                        $data = implode(', ', $one($model));
+                    } else {
+                        $data = $one($model);
+                    }
+                    $sheet->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $data),DataType::TYPE_STRING);
                     $sheet->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 }
 
