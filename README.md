@@ -24,7 +24,7 @@ If you whant to use this fork - don't forget add this into `repositories` at `co
 Checkout example of composer.json [here](https://bunin.in/drive/composer.json)
 
 
-Getting started with Yii2-json-api
+Getting started with reports
 -------------------------------------------
 
 ### [1 step] Migrations:
@@ -105,7 +105,7 @@ Script will be checked every n minutes the presence of tasks and execute them. O
 
 ### [4 step] Setup model (resource):
 
-By default, executing a query for api with get parameter ?download=true will create task for generation report with the fields described in 'fields' of model.
+By default, executing a query for api with get parameter ?download=xlsx will create task for generation report with the fields described in 'fields' of model.
 If you whant describe another fields - your can add function exportFields().
 
 Example:
@@ -127,6 +127,18 @@ public function exportFields() {
     ];
 }
 ```
+
+If you want to give a name to the report, add the parameter for needed model.
+
+```php
+
+public $report_name
+```
+
+That's all!
+
+Now you can add the "?download=xlsx" parameter to the request and thus assign the task to upload to the queue.
+
 
 
 

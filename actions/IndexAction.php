@@ -97,7 +97,10 @@ class IndexAction extends Action
         /* @var $modelClass \yii\db\BaseActiveRecord */
         $modelClass = $this->modelClass;
 
-        if (Yii::$app->getRequest()->getQueryParam('download')) {
+        if (
+            Yii::$app->getRequest()->getQueryParam('download') &&
+            Yii::$app->getRequest()->getQueryParam('download') == 'xlsx'
+        ) {
             return QueueReport::newReport($modelClass, $filter);
         }
 
