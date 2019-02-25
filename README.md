@@ -91,6 +91,44 @@ Add:
 ],
 ```
 
+### [3 step] Run reports:
+
+Add cron task for starting report generate every n minutes:
+
+Script will be checked every n minutes the presence of tasks and execute them. Only one report is executed at a time.
+
+```php
+
+* * * * *  php bin/yii jsonapi/generate/index
+
+```
+
+### [4 step] Setup model (resource):
+
+By default, executing a query for api with get parameter ?download=true will create task for generation report with the fields described in 'fields' of model.
+If you whant describe another fields - your can add function exportFields().
+
+Example:
+
+```php
+
+public function exportFields() {
+    return [
+        'id',
+        'user' => function ($model) {
+            if ($model->first_name) {
+                return $model->first_name;
+            }
+            return $model->last_name;
+        },
+        'role' => function ($model) {
+            return $model->roles->role;
+        }
+    ];
+}
+```
+
+
 
 Data Serializing and Content Negotiation:
 -------------------------------------------
