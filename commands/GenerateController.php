@@ -13,6 +13,7 @@ use yii\BaseYii;
 use yii\console\Controller;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\helpers\BaseFileHelper;
 use yii\helpers\Json;
 
 /**
@@ -45,25 +46,21 @@ class GenerateController extends Controller
 
         if ($model) {
 
-            //$model->status = QueueReport::STATUS_STARTED;
-            //$model->save();
+            $model->status = QueueReport::STATUS_STARTED;
+            $model->save();
 
-            $file = $this->getFilename();
+            $file_name = $this->getFilename();
+            $file_path = BaseYii::getAlias(Yii::$app->controller->module->params['file_path']). date("Y-m-d");
+            $full_path = $file_path.'/'.$file_name;
 
-            $upload_filename = BaseYii::getAlias(Yii::$app->controller->module->params['file_path'] . $file);
+            BaseFileHelper::createDirectory($file_path);
 
-            if (!file_exists(BaseYii::getAlias(Yii::$app->controller->module->params['file_path']))) {
-
-                mkdir(BaseYii::getAlias(Yii::$app->controller->module->params['file_path']), 0777, true);
-
-            }
-
-            if ($this->setFile($model, $upload_filename)) {
+            if ($this->setFile($model, $full_path)) {
 
                 $model->status = QueueReport::STATUS_ENDED;
                 $model->report_base_url = BaseYii::getAlias(Yii::$app->controller->module->params['public_file_path']);
-                $model->report_path = $file;
-                $model->completed_at = new Expression('NOW()');
+                $model->report_path = $file_name;
+                $model->completed_at = time();
                 $model->save();
 
                 return 1;
@@ -171,7 +168,6 @@ class GenerateController extends Controller
 
         } catch (\Exception $e) {
 
-            var_dump("TEST");
             return false;
 
         }
@@ -215,7 +211,7 @@ class GenerateController extends Controller
     private function getFilename()
     {
 
-        return md5(time()) . '.xls';
+        return md5(time()) . '.xlsx';
 
     }
 
