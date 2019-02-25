@@ -44,7 +44,7 @@ class QueueReport extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'created_at', 'completed_at'], 'default', 'value' => null],
-            [['user_id', 'created_at', 'completed_at'], 'integer'],
+            [['id', 'user_id', 'created_at', 'completed_at'], 'integer'],
             [['report_name', 'status', 'model', 'created_at'], 'required'],
             [['report_name', 'model', 'filter', 'report_base_url', 'report_path'], 'string'],
             [['viewed'], 'boolean'],
@@ -83,7 +83,7 @@ class QueueReport extends \yii\db\ActiveRecord
         $model = new $modelClass;
 
         $report = new QueueReport();
-        $report->user_id = (!Yii::$app->user->isGuest) ? null : Yii::$app->user->id;
+        $report->user_id = (\Yii::$app->user->isGuest) ? null : \Yii::$app->user->id;
         $report->report_name = (property_exists($model, 'report_name')) ? $model->report_name : self::$default_report_name;
         $report->status = QueueReport::STATUS_CREATED;
         $report->model = $modelClass;
