@@ -3,6 +3,10 @@
 namespace tuyakhov\jsonapi\commands;
 
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use tuyakhov\jsonapi\models\QueueReport;
 use Yii;
 use yii\BaseYii;
@@ -18,7 +22,7 @@ use yii\helpers\Json;
  */
 class GenerateController extends Controller
 {
-    
+
     /**
      * Main worker
      * @return int
@@ -106,14 +110,15 @@ class GenerateController extends Controller
         $tableName = $modelClass->tableName();
         $fields = $this->getFieldsKeys($modelClass->fields());
 
-        $objPHPExcel = new \PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-        $objPHPExcel->getActiveSheet()->setTitle($title ? $title : $tableName);
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle($title ? $title : $tableName);
+
         $letter = 65;
 
         foreach ($fields as $one) {
 
-            $objPHPExcel->getActiveSheet()->getColumnDimension(chr($letter))->setAutoSize(true);
+            $sheet->getColumnDimension(chr($letter))->setAutoSize(true);
             $letter++;
 
         }
@@ -122,9 +127,10 @@ class GenerateController extends Controller
 
         foreach ($fields as $one) {
 
-            $objPHPExcel->getActiveSheet()->setCellValue(chr($letter) . '1', $modelClass->getAttributeLabel($one));
-            $objPHPExcel->getActiveSheet()->getStyle(chr($letter) . '1')->getAlignment()->setHorizontal(
-                \PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $sheet->setCellValue(chr($letter) . '1', $modelClass->getAttributeLabel($one));
+
+            $sheet->getStyle(chr($letter) . '1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
             $letter++;
 
         }
@@ -136,24 +142,19 @@ class GenerateController extends Controller
 
             $fields = $modelClass->fields();
 
-            if (method_exists($modelClass, 'exporeFields')) {
+            if (method_exists($modelClass, 'exportFields')) {
                 $fields = $modelClass->exportFields();
             }
 
             foreach ($fields as $one) {
-                //var_dump($one);
 
                 if (is_string($one)) {
-                    $objPHPExcel->getActiveSheet()->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $model[$one]));
-                    $objPHPExcel->getActiveSheet()->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(
-                        \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-
-                }/* else {
-                    $objPHPExcel->getActiveSheet()->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $one($model)));
-                    $objPHPExcel->getActiveSheet()->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(
-                        \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-
-                }*/
+                    $sheet->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $model[$one]),DataType::TYPE_STRING);
+                    $sheet->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                } else {
+                    $sheet->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $one($model)),DataType::TYPE_STRING);
+                    $sheet->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                }
 
                 $letter++;
             }
@@ -162,19 +163,18 @@ class GenerateController extends Controller
             $row++;
         }
 
-        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        try {
 
-        $objWriter->save($filename);
-
-        /*try {
-
+            $writer = new Xlsx($spreadsheet);
+            $writer->save($filename);
             return true;
 
         } catch (\Exception $e) {
-            var_dump($objWriter->)
+
+            var_dump("TEST");
             return false;
 
-        }*/
+        }
 
     }
 
@@ -215,7 +215,7 @@ class GenerateController extends Controller
     private function getFilename()
     {
 
-        return md5(time()). '.xls';
+        return md5(time()) . '.xls';
 
     }
 
