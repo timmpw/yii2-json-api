@@ -84,7 +84,6 @@ Don't forget bootstrap module!
 Add:
 
 ```php
-
 'bootstrap' => [
     // your another modules
     'jsonapi'
@@ -98,9 +97,7 @@ Add cron task for starting report generate every n minutes:
 Script will be checked every n minutes the presence of tasks and execute them. Only one report is executed at a time.
 
 ```php
-
 * * * * *  php bin/yii jsonapi/generate/index
-
 ```
 
 ### [4 step] Setup model (resource):
@@ -111,7 +108,6 @@ If you whant describe another fields - your can add function exportFields().
 Example:
 
 ```php
-
 public function exportFields() {
     return [
         'id',
@@ -131,7 +127,6 @@ public function exportFields() {
 If you want to give a name to the report, add the parameter for needed model.
 
 ```php
-
 public $report_name
 ```
 
