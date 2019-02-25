@@ -94,7 +94,7 @@ class GenerateController extends Controller
         $query = $modelClass::find();
 
         if (!empty($reportItem->filter)) {
-            $query->andWhere(unserialize($reportItem->filter));
+            $query->andWhere(json_decode($reportItem->filter, true));
         }
 
         $dataProvider = Yii::createObject([
@@ -135,6 +135,8 @@ class GenerateController extends Controller
         $row = 2;
         $letter = 65;
 
+        $data = $dataProvider->getModels();
+
         foreach ($dataProvider->getModels() as $model) {
 
             $fields = $modelClass->fields();
@@ -149,7 +151,7 @@ class GenerateController extends Controller
                     $sheet->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $model[$one]),DataType::TYPE_STRING);
                     $sheet->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 } else {
-                    $sheet->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', $one($model)),DataType::TYPE_STRING);
+                    $sheet->setCellValueExplicit(chr($letter) . $row, preg_replace('/[\xF0-\xF7].../s', ' ', implode(",", $one($model))),DataType::TYPE_STRING);
                     $sheet->getStyle(chr($letter) . $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 }
 
