@@ -58,7 +58,7 @@ class GenerateController extends Controller
             if ($this->setFile($model, $full_path)) {
 
                 $model->status = QueueReport::STATUS_ENDED;
-                $model->report_base_url = BaseYii::getAlias(Yii::$app->controller->module->params['file_path']).date("Y-m-d").'/';
+                $model->report_base_url = Yii::$app->controller->module->params['public_file_path'].date("Y-m-d").'/';
                 $model->report_path = $file_name;
                 $model->completed_at = time();
                 $model->save();
